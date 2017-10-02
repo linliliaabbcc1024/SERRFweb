@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sili Fan">
+
+  <link rel="shortcut icon" href="logo/logo - sm - inv - trans.png">
+
+
+  <link rel="stylesheet" href="theme/bootstrap.css" media="screen">
+  <link rel="stylesheet" href="theme/usebootstrap.css">
+  <link href="font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" href="local.css">
+
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="bootstrap/bootstrap.min.js"></script>
+  <script src="bootstrap/usebootstrap.js"></script>
+
+  <script src="opencpu-0.5.js"></script>
+  <script src="local.js"></script>
+
+</head>
+
+<body>
+
+
+
+   <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+            <li>
+              <a class="navigate" href="index.html">Intro</a>
+            </li>
+            <li>
+              <a class="navigate" href="contact.html">Contact</a>
+            </li>
+            <li>
+              <a class="navigate" href="tutorial.html">Tutorial</a>
+            </li>
+            <li>
+              <a class="navigate" href="SERRF.html">Normalize!</a>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" target="_blank"><i class="	fa fa-pie-chart"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+<div class="container">
+
+
+
+
+
+<div class="page-header" id="banner">
+
+        <div class="row" id = "intro">
+          <div class="col-lg-6">
+            <h1>SERRF</h1>
+            <p class="lead">Systematical Error Removal using Random Forest</p>
+          </div>
+        </div>
+</div>
+
+<input id = "input" type="file"><p class='uploaded' style="display: none;" id='uploadedText'>uploaded</p>
+<br /><a href="example.xlsx"><i class="fa fa-download" aria-hidden="true" style='color:black'></i> <span style="color:black">example data</span></a>
+<button href="#" class="btn btn-primary btn-sm btn-block uploaded" id="apply"><span id='applyText'>Apply SERRF normalization</span></button>
+
+
+<div class="row done" >
+
+  <div id='finishtext'></div><br />
+
+  <div class="col-md-6">
+    <img id = 'rawpca' width = "600px"/>
+    <p><b>Figure1.</b> Principal Component Analysis score plot using the raw data.</p>
+    <p>The median of RSD of the validate samples is: <span id="validateraw"></span>.</p>
+    <p># (%) of RSD &lt; 20%: <span id="count_less_20_raw"></span> (<span id="perc_less_20_raw"></span>).</p>
+    <p></p>
+  </div>
+  <div class="col-md-6">
+    <img id = 'SERRFpca' width = "600px"/>
+    <p><b>Figure2.</b> Principal Component Analysis score plot using the SERRF normalized data.</p>
+    <p>The median of RSD of the validate samples is: <span id="validateSERRF"></span>.</p>
+    <p># (%) of RSD &lt; 20%: <span id="count_less_20_SERRF"></span> (<span id="perc_less_20_SERRF"></span>).</p>
+  </div>
+</div>
+<button href="#" class="btn btn-primary btn-sm done" id="download"><span id='downloadText'>Download Results</span></button>
+
+
+
+
+<footer style="position: absolute;right: 0;bottom: 0;left: 0;padding: 1rem;margin:0;text-align: center;">
+  <b>FiehnLab</b>
+</footer>
+</div>
+
+
+
+</body>
+
+
+</html>

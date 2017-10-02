@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "<!DOCTYPE html>\n<html lang=\"en\" ng-app=\"myApp\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <meta name=\"author\" content=\"Sili Fan\">\n\n  <link rel=\"shortcut icon\" href=\"logo/logo - sm - inv - trans.png\">\n\n\n  <link rel=\"stylesheet\" href=\"theme/bootstrap.css\" media=\"screen\">\n  <link rel=\"stylesheet\" href=\"theme/usebootstrap.css\">\n  <link href=\"font-awesome.css\" rel=\"stylesheet\">\n  <link rel=\"stylesheet\" href=\"local.css\">\n\n  <script src=\"jquery-3.2.1.min.js\"></script>\n  <script src=\"bootstrap/bootstrap.min.js\"></script>\n  <script src=\"bootstrap/usebootstrap.js\"></script>\n\n  <script src=\"opencpu-0.5.js\"></script>\n  <script src=\"local.js\"></script>\n\n</head>\n\n<body>\n\n\n\n   <div class=\"navbar navbar-default navbar-fixed-top\">\n      <div class=\"container\">\n\n        <div class=\"navbar-collapse collapse\" id=\"navbar-main\">\n          <ul class=\"nav navbar-nav\">\n            <li>\n              <a class=\"navigate\" href=\"index.html\">Intro</a>\n            </li>\n            <li>\n              <a class=\"navigate\" href=\"contact.html\">Contact</a>\n            </li>\n            <li>\n              <a class=\"navigate\" href=\"tutorial.html\">Tutorial</a>\n            </li>\n            <li>\n              <a class=\"navigate\" href=\"SERRF.html\">Normalize!</a>\n            </li>\n          </ul>\n\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li><a href=\"#\" target=\"_blank\"><i class=\"\tfa fa-pie-chart\"></i></a></li>\n          </ul>\n        </div>\n      </div>\n    </div>\n\n\n\n\n\n\n<div class=\"container\">\n\n\n\n\n\n<div class=\"page-header\" id=\"banner\">\n\n        <div class=\"row\" id = \"intro\">\n          <div class=\"col-lg-6\">\n            <h1>Contact</h1>\n            <p class=\"lead\">Meet the people behind SERRF</p>\n          </div>\n        </div>\n</div>\n\n\n\n\n<div class=\"panel-group\">\n  <div class=\"panel panel-default\">\n    <div class=\"panel-body\">\n      <h4>Sili Fan</h4>\n      <p>Sili (slfan@ucdavis.edu) is a principal statistician in the <a href=\"http://metabolomics.ucdavis.edu/contact/about-wcmc\" target=\"_blank\">West Cost Metabolomics Center</a>. He is good at analysing the high-throughput biology data (metabolomics) using univariate and multivariate statistical methods. He wrote statistical tools (<a href=\"http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0171046\" target=\"_blank\">MetaBox</a>) using R and Javascript. He enjoys writing report and providing explanation of the staitistical findings to the biologists. He is also a <a href=\"https://www.kaggle.com/bigdatafan\" target=\"_blank\">KAGGLEr</a>, a huge fan of machine learning.</p>\n    </div>\n  </div>\n\n</div>\n\n\n<footer style=\"position: absolute;right: 0;bottom: 0;left: 0;padding: 1rem;margin:0;text-align: center;\">\n  <b>FiehnLab</b>\n</footer>\n</div>\n\n\n\n</body>\n\n\n</html>\n",
+    "created" : 1505694236357.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "66|5|74|0|\n79|5|87|0|\n",
+    "hash" : "444818762",
+    "id" : "E54A1B24",
+    "lastKnownWriteTime" : 1505755054,
+    "last_content_update" : 1505755528838,
+    "path" : "~/GitHub/SERRFweb/inst/www/contact.html",
+    "project_path" : "inst/www/contact.html",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "html"
+}
