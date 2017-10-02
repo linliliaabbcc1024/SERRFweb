@@ -1,6 +1,6 @@
-SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Constanze GCTOF for Normalization.xlsx", ip = '128.120.143.234'){
+SERRF = function(input = "C:\\Users\\fansi\\Desktop\\example (1).xlsx", ip = '2602:306:3144:1140:5994:7a10:7bfa:67ac'){
 
-  library(rgeolocate)
+  # library(rgeolocate)
 
   start = Sys.time()
 
@@ -80,41 +80,42 @@ SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Constanze GCTOF for No
 
   }
 
-  info = read.csv(paste0("http://localhost:5984/serrf/info/info.csv"), stringsAsFactors = F,na.strings = "")
-
-
-  file <- system.file("extdata","ip2_sample.bin", package = "rgeolocate")
-
-  info$num[info$code == ip2location(ip, file, c("country_code"))[[1]]] =   info$num[info$code == ip2location(ip, file, c("country_code"))[[1]]]+1
-
-  put_att_csv = function(projectID = 'tryThu.Aug.17.14.53.35.2017', attname = 'test.csv', att = data.table::fread("G:\\initialize MetDA\\user_active.csv")){
-    projectUrl <- paste0("http://localhost:5984/serrf/",projectID)
-    projectList <- jsonlite::fromJSON(projectUrl)
-
-    new_att = projectList[["_attachments"]]
-    new_att = new_att[!names(new_att)%in%attname]
-    new_att[[attname]] = list(content_type="text/csv", data = RCurl::base64(
-      paste0(R.utils::captureOutput(write.csv(att,stdout(), row.names=F)),collapse = "\n")
-    ))
-    projectList[["_attachments"]] = new_att
-    result = RCurl::getURL(paste0("http://localhost:5984/serrf/",projectID),customrequest='PUT',httpheader=c('Content-Type'='application/json'),postfields= jsonlite::toJSON(projectList,auto_unbox = T, force = T))
-    while(grepl("error",result)) {
-      projectList <- jsonlite::fromJSON(projectUrl)
-      new_att = projectList[["_attachments"]]
-      new_att = new_att[!names(new_att)%in%attname]
-      new_att[[attname]] = list(content_type="text/csv", data = RCurl::base64(
-        paste0(R.utils::captureOutput(write.csv(att,stdout(), row.names=F)),collapse = "\n")
-      ))
-      projectList[["_attachments"]] = new_att
-      result = RCurl::getURL(paste0("http://localhost:5984/serrf/",projectID),customrequest='PUT',httpheader=c('Content-Type'='application/json'),postfields= jsonlite::toJSON(projectList,auto_unbox = T, force = T))
-      if(grepl("ok",result)){
-        break;
-      }
-    }
-    return(result)
-  }
-
-  put_att_csv("info", "info.csv", info)
+  # info = read.csv(paste0("http://localhost:5984/serrf/info/info.csv"), stringsAsFactors = F,na.strings = "")
+  #
+  #
+  # file <- system.file("extdata","ip2_sample.bin", package = "rgeolocate")
+  #
+  # code = ip2location(ip, file, c("country_code"))[[1]]
+  # info$num[info$code == ip2location(ip, file, c("country_code"))[[1]]] =   info$num[info$code == code]+1
+  #
+  # put_att_csv = function(projectID = 'tryThu.Aug.17.14.53.35.2017', attname = 'test.csv', att = data.table::fread("G:\\initialize MetDA\\user_active.csv")){
+  #   projectUrl <- paste0("http://localhost:5984/serrf/",projectID)
+  #   projectList <- jsonlite::fromJSON(projectUrl)
+  #
+  #   new_att = projectList[["_attachments"]]
+  #   new_att = new_att[!names(new_att)%in%attname]
+  #   new_att[[attname]] = list(content_type="text/csv", data = RCurl::base64(
+  #     paste0(R.utils::captureOutput(write.csv(att,stdout(), row.names=F)),collapse = "\n")
+  #   ))
+  #   projectList[["_attachments"]] = new_att
+  #   result = RCurl::getURL(paste0("http://localhost:5984/serrf/",projectID),customrequest='PUT',httpheader=c('Content-Type'='application/json'),postfields= jsonlite::toJSON(projectList,auto_unbox = T, force = T))
+  #   while(grepl("error",result)) {
+  #     projectList <- jsonlite::fromJSON(projectUrl)
+  #     new_att = projectList[["_attachments"]]
+  #     new_att = new_att[!names(new_att)%in%attname]
+  #     new_att[[attname]] = list(content_type="text/csv", data = RCurl::base64(
+  #       paste0(R.utils::captureOutput(write.csv(att,stdout(), row.names=F)),collapse = "\n")
+  #     ))
+  #     projectList[["_attachments"]] = new_att
+  #     result = RCurl::getURL(paste0("http://localhost:5984/serrf/",projectID),customrequest='PUT',httpheader=c('Content-Type'='application/json'),postfields= jsonlite::toJSON(projectList,auto_unbox = T, force = T))
+  #     if(grepl("ok",result)){
+  #       break;
+  #     }
+  #   }
+  #   return(result)
+  # }
+  #
+  # put_att_csv("info", "info.csv", info)
 
   data = readData(input)
 
@@ -262,12 +263,13 @@ SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Constanze GCTOF for No
 
 
   # get ip summary
-  ip_summ = t(info$num)
-  colnames(ip_summ) = info$code
-
-  ip_summ = data.frame(ip_summ)
-
-  ip_summ = jsonlite::toJSON(ip_summ)
+  # ip_summ = t(info$num)
+  # colnames(ip_summ) = info$code
+  #
+  # ip_summ = data.frame(ip_summ)
+  #
+  # ip_summ = jsonlite::toJSON(ip_summ)
+  ip_summ = NA
 
 
 
