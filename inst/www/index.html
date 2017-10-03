@@ -52,9 +52,9 @@
             </li>
           </ul>
 
-          <ul class="nav navbar-nav navbar-right">
+          <!--<ul class="nav navbar-nav navbar-right">
             <li><a class="navigate" href="#" id='navstat'><i class="	fa fa-pie-chart"></i></a></li>
-          </ul>
+          </ul>-->
         </div>
       </div>
     </div>
@@ -85,13 +85,13 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <h4>How it works?</h4>
-      <p>SERRF uses the machine learning algorithm, <a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Random Forest</a> (Breiman, 2001), to normalize the data. For each compound, SERRF uses the QC samples to build a Random Forest model to estimate the systematical error (e.g. batch effect, day-to-day variation, etc). Then apply the model on the both validate QCs and Samples (see tutorial - data format) to normalize the systematical error. In this website, we use the <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation" target="_blank">relative standard deviation</a> (a.k.a coefficient of variation) of the validate QCs to evalute the performance.</p>
+      <p>SERRF uses a machine learning algorithm, <a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Random Forest</a> (Breiman, 2001), to normalize the data. For each compound, SERRF uses the QC samples to build a Random Forest model to estimate the systematical error (e.g. batch effect, day-to-day variation, etc). Then apply the model on the both validate QCs and Samples (see tutorial - data format) to normalize the systematical error. In this website, we use the <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation" target="_blank">relative standard deviation</a> (a.k.a coefficient of variation) of the validate QCs to evalute the performance.</p>
     </div>
   </div>
   <div class="panel panel-default">
     <div class="panel-body">
       <h4>How SERRF differs from others?</h4>
-      <p>The sample normalizations can be classified into three categories based on the types of reference samples/compounds being used, data-driven normalizations, internal standard- (IS) based normalizations, and QC-based normalizations. SERRF is a QC-based normalization method. It uses <a href="https://www.futurelearn.com/courses/metabolomics/0/steps/10703" target="_blank">pooled aliquots of biological subject samples</a> to normalize metabolite intensity. </p><p> Unlike most of the QC-based methods (e.g. <a href="http://pubs.acs.org/doi/abs/10.1021/ac202733q" target="_blank">batch-ratio</a>, <a href="https://www.ncbi.nlm.nih.gov/pubmed/21720319" target="_blank">LOESS</a>, <a href="https://link.springer.com/content/pdf/10.1007/s11306-016-1026-5.pdf" target="_blank">SVM</a> and <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0116221" target="_blank">eigenMS</a> normalization), SERRF assumes that the systematical error are associated with not only the batch effects and the injection order, but also the behavior of other compounds. Using RF algorithm, SERRF automatically selects correlated compounds to normalize the systematical error summarized by the QC samples for each compound. </p>
+      <p>The sample normalizations can be classified into three categories based on the types of reference samples/compounds being used, data-driven normalizations, internal standard- (IS) based normalizations, and QC-based normalizations. SERRF is a QC-based normalization method. It uses <a href="https://www.futurelearn.com/courses/metabolomics/0/steps/10703" target="_blank">pooled aliquots of biological subject samples</a> to normalize the metabolite intensity. </p><p> Unlike most of the QC-based methods (e.g. <a href="http://pubs.acs.org/doi/abs/10.1021/ac202733q" target="_blank">batch-ratio</a>, <a href="https://www.ncbi.nlm.nih.gov/pubmed/21720319" target="_blank">LOESS</a>, <a href="https://link.springer.com/content/pdf/10.1007/s11306-016-1026-5.pdf" target="_blank">SVM</a> and <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0116221" target="_blank">eigenMS</a> normalization), SERRF assumes that the systematical error are associated with not only the batch effects and the injection order, but also the behavior of other compounds. Using RF algorithm, SERRF automatically selects correlated compounds to normalize the systematical error summarized by the QC samples for each compound. </p>
     </div>
   </div>
   <div class="panel panel-default">
@@ -103,16 +103,16 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <h4>How good is SERRF?</h4>
-      There is no single normalization method always outperforms others. But here are some benchmarks for SERRF.
+      There is no single normalization method that always outperforms others. But here are some benchmarks for SERRF.
       <ul>
-        <li>P20 data (negative mode). Median average of 5-fold <a href="#">Monte-Carlo Cross-Validated</a> QC <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation"  target="_blank">RSD</a> from 26.4% to 3.4% (2nd best: LOESS 8.4%). Median average of External-validated QC RSD from 27.1% to 9.5% (2nd best: LOESS 13.2%).</li>
-        <li>P20 data (positive mode). Median average of 5-fold Monte-Carlo Cross-Validated QC RSD from 19.8% to 2.1% (2nd best: SVM 7.4%). Median average of External-validated QC RSD from 17.1% to 8.2% (2nd best: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3337420/" target="_blank">cubic</a> 11.3%).</li>
+        <li>P20 data (negative mode). Median average of 5-fold <a href="#">Monte-Carlo Cross-Validated</a> QC <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation"  target="_blank">RSD</a> reduced from 26.4% to 3.4% (2nd best: LOESS 8.4%). Median average of External-validated QC RSD reduced from 27.1% to 9.5% (2nd best: LOESS 13.2%).</li>
+        <li>P20 data (positive mode). Median average of 5-fold Monte-Carlo Cross-Validated QC RSD reduced from 19.8% to 2.1% (2nd best: SVM 7.4%). Median average of External-validated QC RSD reduced from 17.1% to 8.2% (2nd best: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3337420/" target="_blank">cubic</a> 11.3%).</li>
       </ul>
-      <b>Note</b>: the cross validation and external validation are neccessary and critical procedures for assessing the normalizatino performance due to the <a href="#https://en.wikipedia.org/wiki/Overfitting" target="_blank">overfitting</a> issue.
+      <b>Note</b>: the cross validation and external validation are critical procedures to overcome the <a href="#https://en.wikipedia.org/wiki/Overfitting" target="_blank">overfitting</a> issue.
     </div>
   </div>
 
-  <button id = "test">test</button>
+  <!--<button id = "test">test</button>-->
 
 </div>
 </div>
@@ -122,7 +122,7 @@
         <div class="row" id = "intro">
           <div class="col-lg-6">
             <h1>Contact</h1>
-            <p class="lead">Meet the people behind SERRF</p>
+            <p class="lead">Meet the people behind SERRF.</p>
           </div>
         </div>
 </div>
@@ -193,7 +193,7 @@
       <h4>Step3: Start normalization</h4>
       <ul>
         <li>Go to the <em>Use SERRF</em>. (top of this page)</li>
-        <li>Click the <em>Choose File</em> button. (The file format will be automatically checked)</li>
+        <li>Click the <em>Choose File</em> button. (The file format will be automatically checked after uploading)</li>
         <li>Click the <em>Apply SERRF normalization</em> button. (The normalzation procedure will take several minutes dependending on the sample size and number of compounds.)</li>
       </ul>
     </div>
@@ -203,8 +203,8 @@
     <div class="panel-body">
       <h4>Step4: Results and Download</h4>
       <ul>
-        <li>PCA: principal component analysis to visualize the result. A good normalization will put the QCs into a dense cluster and will put baches (distinguished by colors) to be overlapped.</li>
-        <li>RSD: relative standard deviation is calculated on the <em>validate</em> of each compound. The median of all the RSDs is used as the final evaluation. A low value of these RSDs indicates a good performance.</li>
+        <li>PCA: use principal component analysis to visualize the result. A good normalization will put the QCs into a dense cluster and will put baches (distinguished by colors) to be overlapped.</li>
+        <li>RSD: relative standard deviation is calculated on the <em>validate</em> of each compound. The median of all the metabolite's RSDs is used as the final evaluation. A low value of these RSDs indicates a good performance.</li>
         <li>Downloads the result by clicking the <em>Download Results</em> button.</li>
       </ul>
     </div>
@@ -274,7 +274,7 @@
 </footer>
 </div>
 
-<div id="world-map" style="width: 600px; height: 400px"></div>
+<!--<div id="world-map" style="width: 600px; height: 400px"></div>-->
 
 
 </body>
