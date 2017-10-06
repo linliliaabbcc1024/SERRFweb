@@ -1,11 +1,14 @@
-SERRF = function(input = "C:\\Users\\fansi\\Desktop\\example (1).xlsx", ip = '2602:306:3144:1140:5994:7a10:7bfa:67ac'){
+load(file = "./data/norm.RData")
+SERRF = function(input = "C:\\Users\\Sili Fan\\Documents\\GitHub\\SERRFweb\\inst\\www\\example.xlsx", ip = '2602:306:3144:1140:5994:7a10:7bfa:67ac'){
 
   # library(rgeolocate)
+
+  pacman::p_load(ggplot2, randomForest, parallel, officer, dplyr, rvg)
+
 
   start = Sys.time()
 
   readData = function(path =  "G:\\data\\D\\data project D.xlsx"){
-
     #check if it is csv of xlsx
     if(grepl("xlsx", path)){
       d <- openxlsx::read.xlsx(path, sheet = 1,colNames = FALSE)
@@ -133,7 +136,6 @@ SERRF = function(input = "C:\\Users\\fansi\\Desktop\\example (1).xlsx", ip = '26
   e = data.matrix(e)
 
 
-  library(ggplot2)
   theme.scatter = theme(
     plot.title = element_text(size = rel(2), hjust = 0.5,face = 'bold',family = "Arial"),#title size.
     # axis.title = element_text(size = rel(2)),
@@ -150,44 +152,43 @@ SERRF = function(input = "C:\\Users\\fansi\\Desktop\\example (1).xlsx", ip = '26
   QC.index = which(p$type == "QC")
 
   # parallel computing.
-  library(parallel)
-  cl = makeCluster(8)
+  cl = makeCluster(2)
+  # check if it is example.xlsx, if so, give result directly.
+  if(e[1,1] == 167879 & nrow(e) == 268 & ncol(e) == 1299 &  e[8,8] == 355021){
+    # this is example norm is loaded already.
+  }else{
+    # SERRF normalization
+    SERRF_norm = function(e,f,p,
+                          batch = define_batch(e,f,p),
+                          QC.index, time = "Acq. Date-Time"){
+      qc = rep(F, nrow(p))
+      qc[QC.index] = T
+      e. = e
+      for(i in 1:nrow(e)){ # MAKE SURE THE QC AND SAMPLES ARE AT THE SAME LEVEL. This is critical for SERRF algorithm (and other tree-based machine learning algorithm) because when building each tree, the split on each leaf considers the level of the values. If the values are not consistant, then the RF models will be wrong and the RF will bias the intensity level after normalization (although the relative position won't change.)
+        e.[i,qc] = unlist(by(data.frame(e.[i,],qc),batch[1,],function(x){# x = data.frame(e.[i,],qc)[batch[1,]=='A',]
+          x[x[,2],1] - (median(x[x[,2],1]) - median(x[!x[,2],1]))
+        }))
+      }
+      pred = parSapply(cl, X = 1:nrow(f), function(j,eData,batch,randomForest, QC.index, time){
+        data = data.frame(y = eData[j,], t(eData[-j,]), batch = batch[1,], time = time)
+        colnames(data) = c("y", paste0("X",1:nrow(eData))[-j], "batch", "time")
+        model = randomForest(y~., data = data,subset = QC.index, importance = F)
+        newdata = data.frame(t(eData[-j,]), batch = batch[1,], time = time)
+        colnames(newdata) =   c(paste0("X",1:nrow(eData))[-j], "batch", "time")
+        new = (eData[j,]/predict(model,newdata = newdata))*median(eData[j,])
+        return(new)
+      }, e.,batch,randomForest, QC.index, p[[time]])
 
-  # SERRF normalization
-  SERRF_norm = function(e,f,p,
-                        batch = define_batch(e,f,p),
-                        QC.index, time = "Acq. Date-Time"){
-    library(randomForest)
-    qc = rep(F, nrow(p))
-    qc[QC.index] = T
-    e. = e
-    for(i in 1:nrow(e)){ # MAKE SURE THE QC AND SAMPLES ARE AT THE SAME LEVEL. This is critical for SERRF algorithm (and other tree-based machine learning algorithm) because when building each tree, the split on each leaf considers the level of the values. If the values are not consistant, then the RF models will be wrong and the RF will bias the intensity level after normalization (although the relative position won't change.)
-      e.[i,qc] = unlist(by(data.frame(e.[i,],qc),batch[1,],function(x){# x = data.frame(e.[i,],qc)[batch[1,]=='A',]
-        x[x[,2],1] - (median(x[x[,2],1]) - median(x[!x[,2],1]))
-      }))
+      e_SERRF_pred = t(pred)
+      return(list(e = e_SERRF_pred, p = p, f = f))
     }
-    pred = parSapply(cl, X = 1:nrow(f), function(j,eData,batch,randomForest, QC.index, time){
-      data = data.frame(y = eData[j,], t(eData[-j,]), batch = batch[1,], time = time)
-      colnames(data) = c("y", paste0("X",1:nrow(eData))[-j], "batch", "time")
-      model = randomForest(y~., data = data,subset = QC.index, importance = F)
-      newdata = data.frame(t(eData[-j,]), batch = batch[1,], time = time)
-      colnames(newdata) =   c(paste0("X",1:nrow(eData))[-j], "batch", "time")
-      new = (eData[j,]/predict(model,newdata = newdata))*median(eData[j,])
-      return(new)
-    }, e.,batch,randomForest, QC.index, p[[time]])
-
-    e_SERRF_pred = t(pred)
-    return(list(e = e_SERRF_pred, p = p, f = f))
+    norm = SERRF_norm(e, f, p, batch, QC.index, time = "time")
   }
-
-  norm = SERRF_norm(e, f, p, batch, QC.index, time = "time")
-
 
 
   # evaluation methods.
   # RSD
   RSD = function(e,f,p,robust = F,cl){
-    library(parallel)
     if(robust){
       result=parSapply(cl=cl,X=1:nrow(e),FUN = function(i,remove_outlier,e){
         x = remove_outlier(e[i,])[[1]]
@@ -235,17 +236,27 @@ SERRF = function(input = "C:\\Users\\fansi\\Desktop\\example (1).xlsx", ip = '26
   ggsave("SERRFpca.png",SERRFpca, width = 8, height = 8)
   ggsave("rawpca.png",rawpca, width = 8, height = 8)
 
-  library(ReporteRs)
-  doc = pptx( )
-  doc = addSlide(doc, slide.layout = "Title and Content")
-  doc = addPlot(doc, fun = function() print(rawpca),
-                vector.graphic = TRUE, width = 6, height = 6)
-  doc = addSlide(doc, slide.layout = "Title and Content")
-  doc = addPlot(doc, fun = function() print(SERRFpca),
-                vector.graphic = TRUE, width = 6, height = 6)
 
-  # write the document to a file
-  writeDoc(doc, file = "PCAs.pptx")
+  read_pptx() %>% add_slide(layout = "Title and Content", master = "Office Theme") %>%
+    ph_with_vg(code = print(rawpca), type = "body", width = 10,
+               height = 8, offx = 0, offy = 0) %>% add_slide(layout = "Title and Content", master = "Office Theme") %>%
+    ph_with_vg(code = print(SERRFpca), type = "body", width = 10,
+               height = 8, offx = 0, offy = 0) %>% print(target = "PCAs.pptx") %>%
+    invisible()
+
+
+
+
+  # doc = pptx( )
+  # doc = addSlide(doc, slide.layout = "Title and Content")
+  # doc = addPlot(doc, fun = function() print(rawpca),
+  #               vector.graphic = TRUE, width = 6, height = 6)
+  # doc = addSlide(doc, slide.layout = "Title and Content")
+  # doc = addPlot(doc, fun = function() print(SERRFpca),
+  #               vector.graphic = TRUE, width = 6, height = 6)
+  #
+  # # write the document to a file
+  # writeDoc(doc, file = "PCAs.pptx")
 
   zip(files = c(
     "SERRF_normalized.csv",
