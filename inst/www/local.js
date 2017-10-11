@@ -2,56 +2,18 @@
 $(function(){
 
 
+var db = new PouchDB('http://slfan:Fansly68410298_@localhost:5984/serrfweb');
 
-$("#test").click(function(){
-  var req = ocpu.call("ip_summary",{
-
-
-
-  }, function(sess){
-
-    s = sess
-    sess.getObject(function(obj){
-      o = obj;
-
-      j = JSON.parse(o);
-      $('#world-map').vectorMap({
-        map: 'world_mill',
-        series: {
-          regions: [{
-            values: j,
-            scale: ['#C8EEFF', '#0071A4'],
-            normalizeFunction: 'polynomial'
-          }]
-        },
-        onRegionTipShow: function(e, el, code){
-          el.html(el.html()+' (GDP - '+j[code]+')');
-        }
-      });
-
-    })
-
-  }).fail(function(e){
-    alert("Error: " +req.responseText )
-  })
+$.getJSON('//freegeoip.net/json/?callback=?', function(data) {
+  var newuser = JSON.stringify(data, null, 2);
+  // fetch mittens
+db.get('userinfo').then(function (doc) {
+  // update their age
+  doc.info.push(newuser+"**"+Date())
+  // put them back
+  return db.put(doc);
 })
-
-
-   /*var ipSumm = obj.ip_summ
-            $('#world-map').vectorMap({
-                  map: 'world_mill',
-                  series: {
-                    regions: [{
-                      values: ipSumm,
-                      scale: ['#C8EEFF', '#0071A4'],
-                      normalizeFunction: 'polynomial'
-                    }]
-                  },
-                  onRegionTipShow: function(e, el, code){
-                    el.html(el.html()+' (GDP - '+ipSumm[code]+')');
-                  }
-            });*/
-
+});
 
 
 
