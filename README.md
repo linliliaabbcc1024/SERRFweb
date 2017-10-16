@@ -20,7 +20,7 @@ more tutorial and explanation available online.
 3. change the path where the *run me.R* is. If you are using Windows, you can right click the *run me.R* and copy the *location* and then paste it to the second line of *run me.R*. For example, your *run me.R location* is *C:\Users\Sili Fan\Documents\GitHub\SERRFweb\LOCAL*, paste this to the second line of *run me.R*, which then will be `workingdirectory = "C:\Users\Sili Fan\Documents\GitHub\SERRFweb\LOCAL" `. Then chagne all the `\` to `\\`, meaning the second line will be `workingdirectory = "C:\\Users\\Sili Fan\\Documents\\GitHub\\SERRFweb\\LOCAL" `
 4. put your data in a right format (as example.xlsx) and put it the same folder as *run me.R*. 
 5. change the 4th line of *run me.R* to the name of you file.
-6. finally, you can run the *run me.R* by *Ctrl + a* and *Ctrl + r* (for Windows). (sorry, I am not familiar with other system hot keys)
+6. finally, you can run the *run me.R* in RStudio by *Ctrl + a* and *Ctrl + r* (for Windows). (sorry, I am not familiar with other system hot keys)
 7. all the results will be automatically saved in the same folder of *run me.R*
 * **functionality**:
 1. perform at most 15 normalization methods (some use QC, some don't).
