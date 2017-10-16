@@ -297,7 +297,7 @@ sum.QC.CV = RSD(result_norm[['sum']]$e[,p$`Stat Level 1`=='QC'],f,p[p$`Stat Leve
 sum.validate = RSD(result_norm[['sum']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
 cat(paste0("sum normalization QC CV RSD is ", signif(median(sum.QC.CV, na.rm = T), 4)*100,"%. ", signif(sum(sum.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
 if(NISTavailable){
-cat("sum normalization validate QC RSD is ", signif(median(sum.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(sum.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+  cat("sum normalization validate QC RSD is ", signif(median(sum.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(sum.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
 }
 dta = data$original
 dta[5:nrow(dta),3:ncol(dta)] = result_norm[['sum']]$e
@@ -311,7 +311,7 @@ median.QC.CV = RSD(result_norm[['median']]$e[,p$`Stat Level 1`=='QC'],f,p[p$`Sta
 median.validate = RSD(result_norm[['median']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
 cat(paste0("median normalization QC CV RSD is ", signif(median(median.QC.CV, na.rm = T), 4)*100,"%. ", signif(median(median.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
 if(NISTavailable){
-cat("median normalization validate QC RSD is ", signif(median(median.validate, na.rm = T), 4)*100,"%. ", paste0(signif(median(median.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+  cat("median normalization validate QC RSD is ", signif(median(median.validate, na.rm = T), 4)*100,"%. ", paste0(signif(median(median.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
 }
 dta = data$original
 dta[5:nrow(dta),3:ncol(dta)] = result_norm[['median']]$e
@@ -325,7 +325,7 @@ PQN.QC.CV = RSD(result_norm[['PQN']]$e[,p$`Stat Level 1`=='QC'],f,p[p$`Stat Leve
 PQN.validate = RSD(result_norm[['PQN']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
 cat(paste0("PQN normalization QC CV RSD is ", signif(median(PQN.QC.CV, na.rm = T), 4)*100,"%. ", signif(sum(PQN.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
 if(NISTavailable){
-cat("PQN normalization validate QC RSD is ", signif(median(PQN.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(PQN.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+  cat("PQN normalization validate QC RSD is ", signif(median(PQN.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(PQN.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
 }
 dta = data$original
 dta[5:nrow(dta),3:ncol(dta)] = result_norm[['PQN']]$e
@@ -339,7 +339,7 @@ contrast.QC.CV = RSD(result_norm[['contrast']]$e[,p$`Stat Level 1`=='QC'],f,p[p$
 contrast.validate = RSD(result_norm[['contrast']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
 cat(paste0("contrast normalization QC CV RSD is ", signif(median(contrast.QC.CV, na.rm = T), 4)*100,"%. ", signif(sum(contrast.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
 if(NISTavailable){
-cat("contrast normalization validate QC RSD is ", signif(median(contrast.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(contrast.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+  cat("contrast normalization validate QC RSD is ", signif(median(contrast.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(contrast.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
 }
 dta = data$original
 dta[5:nrow(dta),3:ncol(dta)] = result_norm[['contrast']]$e
@@ -352,7 +352,7 @@ quantile.QC.CV = RSD(result_norm[['quantile']]$e[,p$`Stat Level 1`=='QC'],f,p[p$
 quantile.validate = RSD(result_norm[['quantile']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
 cat(paste0("quantile normalization QC CV RSD is ", signif(median(quantile.QC.CV, na.rm = T), 4)*100,"%. ", signif(sum(quantile.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
 if(NISTavailable){
-cat("quantile normalization validate QC RSD is ", signif(median(quantile.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(quantile.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+  cat("quantile normalization validate QC RSD is ", signif(median(quantile.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(quantile.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
 }
 dta = data$original
 dta[5:nrow(dta),3:ncol(dta)] = result_norm[['quantile']]$e
@@ -374,35 +374,48 @@ write.csv(dta, file="normalized-data-sets\\normalization-result-linear-normaliza
 
 # liwong normalization.
 cat("\n<========== Li-Wong Normalization Started! ==========>\n")
-result_norm[['liwong']] = (liwong_norm(e=e,f=f,p=p))
-liwong.QC.CV = RSD(result_norm[['liwong']]$e[,p$`Stat Level 1`=='QC'],f,p[p$`Stat Level 1`=='QC',],cl=cl)
-liwong.validate = RSD(result_norm[['liwong']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
-cat(paste0("liwong normalization QC CV RSD is ", signif(median(liwong.QC.CV, na.rm = T), 4)*100,"%. ", signif(sum(liwong.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
-if(NISTavailable){
-  cat("liwong normalization validate QC RSD is ", signif(median(liwong.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(liwong.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+result_norm[['liwong']] = tryCatch(liwong_norm(e=e,f=f,p=p), error = function(e){
+  return(NA)
+})
+if(is.na(result_norm[['liwong']])){
+  liwong.QC.CV = liwong.validate = NA
+}else{
+  liwong.QC.CV = RSD(result_norm[['liwong']]$e[,p$`Stat Level 1`=='QC'],f,p[p$`Stat Level 1`=='QC',],cl=cl)
+  liwong.validate = RSD(result_norm[['liwong']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
+  cat(paste0("liwong normalization QC CV RSD is ", signif(median(liwong.QC.CV, na.rm = T), 4)*100,"%. ", signif(sum(liwong.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
+  if(NISTavailable){
+    cat("liwong normalization validate QC RSD is ", signif(median(liwong.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(liwong.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+  }
+  dta = data$original
+  dta[5:nrow(dta),3:ncol(dta)] = result_norm[['liwong']]$e
+  write.csv(dta, file="normalized-data-sets\\normalization-result-liwong-normalization.csv",row.names=FALSE)
 }
-dta = data$original
-dta[5:nrow(dta),3:ncol(dta)] = result_norm[['liwong']]$e
-write.csv(dta, file="normalized-data-sets\\normalization-result-liwong-normalization.csv",row.names=FALSE)
+
 
 # cubic normalization.
 cat("\n<========== Cubic Normalization Started! ==========>\n")
-result_norm[['cubic']] = (cubic_norm(e=e,f=f,p=p))
-cubic.QC.CV = RSD(result_norm[['cubic']]$e[,p$`Stat Level 1`=='QC'],f,p[p$`Stat Level 1`=='QC',],cl=cl)
-cubic.validate = RSD(result_norm[['cubic']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
-cat(paste0("cubic normalization QC CV RSD is ", signif(median(cubic.QC.CV, na.rm = T), 4)*100,"%. ", signif(sum(cubic.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
-if(NISTavailable){
-cat( "cubic normalization validate QC RSD is ", signif(median(cubic.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(cubic.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+result_norm[['cubic']] = tryCatch(cubic_norm(e=e,f=f,p=p), error = function(e){
+  return(NA)
+})
+if(is.na(result_norm[['cubic']])){
+  cubic.QC.CV = cubic.validate = NA
+}else{
+  cubic.QC.CV = RSD(result_norm[['cubic']]$e[,p$`Stat Level 1`=='QC'],f,p[p$`Stat Level 1`=='QC',],cl=cl)
+  cubic.validate = RSD(result_norm[['cubic']]$e[,p$`Stat Level 1`=='NIST'],f,p,cl=cl)
+  cat(paste0("cubic normalization QC CV RSD is ", signif(median(cubic.QC.CV, na.rm = T), 4)*100,"%. ", signif(sum(cubic.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
+  if(NISTavailable){
+    cat( "cubic normalization validate QC RSD is ", signif(median(cubic.validate, na.rm = T), 4)*100,"%. ", paste0(signif(sum(cubic.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+  }
+  dta = data$original
+  dta[5:nrow(dta),3:ncol(dta)] = result_norm[['cubic']]$e
+  write.csv(dta, file="normalized-data-sets\\normalization-result-cubic-normalization.csv",row.names=FALSE)
 }
-dta = data$original
-dta[5:nrow(dta),3:ncol(dta)] = result_norm[['cubic']]$e
-write.csv(dta, file="normalized-data-sets\\normalization-result-cubic-normalization.csv",row.names=FALSE)
+
 
 # batchratio
 cat("\n<========== Batch-Ratio Median Normalization Started! ==========>\n")
 result_norm[['batchratio']] = batchratio_norm(e, f, p,batch,QC.index)
 batchratio.validate = RSD(result_norm[['batchratio']]$e[,p$`Stat Level 1`=="NIST"],f,p[p$`Stat Level 1`=="NIST",],cl=cl)
-median(batchratio.validate) # 0.1665929
 result_norm_batchratio_CV = list()
 batchratio.QC.CV. = batchratio.validate. = list()
 for(j in 1:n_CV){
@@ -419,8 +432,8 @@ batchratio.QC.CV = apply(do.call("cbind",batchratio.QC.CV.),1,mean, na.rm=T)
 cat(paste0("batchratio normalization QC CV RSD is ", signif(median(batchratio.QC.CV, na.rm = T), 4)*100,"%. "))
 cat(paste0(signif(sum(batchratio.QC.CV<0.10, na.rm = T)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
 if(NISTavailable){
-cat(paste0("batchratio normalization validate QC RSD is ", signif(median(batchratio.validate, na.rm = T), 4)*100,"%. "))
-cat(paste0(signif(sum(batchratio.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
+  cat(paste0("batchratio normalization validate QC RSD is ", signif(median(batchratio.validate, na.rm = T), 4)*100,"%. "))
+  cat(paste0(signif(sum(batchratio.validate<0.10, na.rm = T)/nrow(f),4)*100,"% of validate QC RSD < 10%.\n"))
 }
 dta = data$original
 dta[5:nrow(dta),3:ncol(dta)] = result_norm[['batchratio']]$e
@@ -477,8 +490,18 @@ performance = data.frame(method = names(result_norm),
                                        SERRF = median(SERRF.QC.CV, na.rm = T)
                                        # ,cyclic = median(cyclic.QC.CV, na.rm = T)
                          )[names(result_norm)],
-                         validate.QC.RSD = sapply(names(result_norm),function(x) median(RSD(result_norm[[x]]$e[,p$`Stat Level 1`=='NIST'],f,p[p$`Stat Level 1`=='NIST',],cl=cl)))
-                         )
+                         validate.QC.RSD = sapply(names(result_norm),function(x){
+                           # for(x in 1:length(result_norm)){
+                           if(sum(is.na(result_norm[[x]]))>0){
+                             return(NA)
+                           }else{
+                             return(median(RSD(result_norm[[x]]$e[,p$`Stat Level 1`=='NIST'],f,p[p$`Stat Level 1`=='NIST',],cl=cl), na.rm = T))
+                           }
+                           # }
+
+
+                         })
+)
 if(!NISTavailable){
   performance = performance[,1:2]
 }
@@ -488,27 +511,27 @@ write.csv(performance, "normalization-performance.csv")
 
 # detailed performance on each compound.
 performanceQC.CV = do.call("cbind",list(none.QC.CV,
-                                    mTIC.QC.CV,
-                                    sum.QC.CV,
-                                    median.QC.CV,
-                                    PQN.QC.CV,
-                                    contrast.QC.CV,
-                                    linear.QC.CV,
-                                    liwong.QC.CV,
-                                    quantile.QC.CV,
-                                    cubic.QC.CV,
-                                    batchratio.QC.CV,
-                                    loess.QC.CV,
-                                    SVM.QC.CV,
-                                    # NOMIS.QC.CV,
-                                    SERRF.QC.CV
-                                    # ,cyclic.QC.CV
-                                    ))
+                                        mTIC.QC.CV,
+                                        sum.QC.CV,
+                                        median.QC.CV,
+                                        PQN.QC.CV,
+                                        contrast.QC.CV,
+                                        linear.QC.CV,
+                                        liwong.QC.CV,
+                                        quantile.QC.CV,
+                                        cubic.QC.CV,
+                                        batchratio.QC.CV,
+                                        loess.QC.CV,
+                                        SVM.QC.CV,
+                                        # NOMIS.QC.CV,
+                                        SERRF.QC.CV
+                                        # ,cyclic.QC.CV
+))
 colnames(performanceQC.CV) = c("none",'mTIC','sum','median','PQN','contrast','linear','liwong','quantile','cubic','batchratio','loess','SVM',
                                # 'NOMIS',
                                'SERRF'
                                # ,'cyclic'
-                               )
+)
 rownames(performanceQC.CV) = f$label
 write.csv(performanceQC.CV, "normalization-performance-QCCVRSD-eachCompound.csv")
 
@@ -524,16 +547,28 @@ cat("Drawing PCA plot for each of the normalization method.")
 doc = pptx( )
 
 for(method in names(result_norm)){
-  doc = addSlide(doc, slide.layout = "Title and Content")
+  if(sum(is.na(result_norm[[method]]))>0){
 
-  index1 = apply(result_norm[[method]]$e, 1, function(x){
-    !sd(x, na.rm = T) == 0
-  })
-  index2 = !is.na(index1)
-  index = index1 & index2
+  }else{
+    doc = addSlide(doc, slide.layout = "Title and Content")
 
-  doc = addPlot(doc, fun = function() print(generate_PCA(result_norm[[method]]$e[index,],f[index,],p,batch = batch[index,],QC.index =  QC.index,method)),
-                vector.graphic = TRUE, width = 6, height = 6)
+    index1 = apply(result_norm[[method]]$e, 1, function(x){
+      !sd(x, na.rm = T) == 0
+    })
+    index2 = !is.na(index1)
+    index = index1 & index2
+
+    doc = addPlot(doc, fun = function() {
+
+
+      print(generate_PCA(result_norm[[method]]$e[index,],f[index,],p,batch = batch[index,],QC.index =  QC.index,method))
+
+
+
+    },
+    vector.graphic = TRUE, width = 6, height = 6)
+  }
+
 
 }
 # write the document to a file
@@ -564,7 +599,7 @@ QC.CVRSD = sort(c(raw = median(none.QC.CV, na.rm = T),
 
 cat("\nCONCLUSION: The ",names(QC.CVRSD)[length(result_norm)]," outperformed others with a average CV QC RSD of ",signif(QC.CVRSD[length(result_norm)])*100,"%.\n")
 QC.CVRSD.ggplot2Data = data.frame(RSD = signif(QC.CVRSD,3),methods = factor(names(QC.CVRSD),levels = names(QC.CVRSD)))
-ggplot(QC.CVRSD.ggplot2Data, aes(x = methods, y = RSD)) + geom_bar(stat = "identity",fill = c(rep("black",length(result_norm)-2),'red','gold'))+
+ggplot(QC.CVRSD.ggplot2Data, aes(x = methods, y = RSD)) + geom_bar(stat = "identity",fill = c(rep("black",length(QC.CVRSD)-2),'red','gold'))+
   theme.scatter+
   theme(text = element_text(size=20),
         axis.text.x = element_text(angle=90, hjust=1))+
@@ -575,42 +610,70 @@ ggplot(QC.CVRSD.ggplot2Data, aes(x = methods, y = RSD)) + geom_bar(stat = "ident
 doc = pptx( )
 
 
-  doc = addSlide(doc, slide.layout = "Title and Content")
-  doc = addPlot(doc, fun = function() print(ggplot(QC.CVRSD.ggplot2Data, aes(x = methods, y = RSD)) + geom_bar(stat = "identity",fill = c(rep("black",length(result_norm)-2),'red','gold'))+theme.scatter+theme(text = element_text(size=20),
-                                                    axis.text.x = element_text(angle=90, hjust=1))+
-                                              geom_text(aes(label=RSD), vjust=-1, colour="black")),
-                vector.graphic = TRUE, width = 8, height = 8)
+doc = addSlide(doc, slide.layout = "Title and Content")
+doc = addPlot(doc, fun = function(){
+
+  print(ggplot(QC.CVRSD.ggplot2Data, aes(x = methods, y = RSD)) + geom_bar(stat = "identity",fill = c(rep("black",length(QC.CVRSD)-2),'red','gold'))+theme.scatter+theme(text = element_text(size=20),
+                                                                                                                                                                         axis.text.x = element_text(angle=90, hjust=1))+
+          geom_text(aes(label=RSD), vjust=-1, colour="black"))
+
+
+} ,
+vector.graphic = TRUE, width = 8, height = 8)
 
 
 # write the document to a file
 writeDoc(doc, file = "QC CV RSD bar-plot.pptx")
 
 if(NISTavailable){
-# bar plot on validate
-validateRSD = sort(c(raw = median(none.validate),
-                     mTIC = median(mTIC.validate),
-                     sum = median(sum.validate),
-                     median = median(median.validate),
-                     PQN = median(PQN.validate),
-                     CONTRAST = median(contrast.validate),
-                     linear = median(linear.validate),
-                     liwong = median(liwong.validate),
-                     quantile = median(quantile.validate),
-                     cubic = median(cubic.validate),
-                     batch = median(batchratio.validate),
-                     loess = median(loess.validate),
-                     SVM = median(SVM.validate),
-                     # NOMIS = median(NOMIS.validate),
-                     SERRF = median(SERRF.validate)
-                     # ,cyclic = median(cyclic.validate)
-),decreasing = T)
-cat("CONCLUSION: The ",names(validateRSD)[length(result_norm)]," outperformed others with a average validate QC RSD of ",signif(validateRSD[length(result_norm)])*100,"%.\n")
-validateRSD.ggplot2Data = data.frame(RSD = signif(validateRSD,3),methods = factor(names(validateRSD),levels = names(validateRSD)))
-ggplot(validateRSD.ggplot2Data, aes(x = methods, y = RSD)) + geom_bar(stat = "identity",fill = c(rep("black",length(result_norm)-2),'red','gold'))+
-  theme.scatter+
-  theme(text = element_text(size=20),
-        axis.text.x = element_text(angle=90, hjust=1))+
-  geom_text(aes(label=RSD), vjust=-1, colour="black")
+  # bar plot on validate
+  validateRSD = sort(c(raw = median(none.validate),
+                       mTIC = median(mTIC.validate),
+                       sum = median(sum.validate),
+                       median = median(median.validate),
+                       PQN = median(PQN.validate),
+                       CONTRAST = median(contrast.validate),
+                       linear = median(linear.validate),
+                       liwong = median(liwong.validate),
+                       quantile = median(quantile.validate),
+                       cubic = median(cubic.validate),
+                       batch = median(batchratio.validate),
+                       loess = median(loess.validate),
+                       SVM = median(SVM.validate),
+                       # NOMIS = median(NOMIS.validate),
+                       SERRF = median(SERRF.validate)
+                       # ,cyclic = median(cyclic.validate)
+  ),decreasing = T)
+  cat("CONCLUSION: The ",names(validateRSD)[length(result_norm)]," outperformed others with a average validate QC RSD of ",signif(validateRSD[length(result_norm)])*100,"%.\n")
+  validateRSD.ggplot2Data = data.frame(RSD = signif(validateRSD,3),methods = factor(names(validateRSD),levels = names(validateRSD)))
+  ggplot(validateRSD.ggplot2Data, aes(x = methods, y = RSD)) + geom_bar(stat = "identity",fill = c(rep("black",length(validateRSD)-2),'red','gold'))+
+    theme.scatter+
+    theme(text = element_text(size=20),
+          axis.text.x = element_text(angle=90, hjust=1))+
+    geom_text(aes(label=RSD), vjust=-1, colour="black")
+
+
+  # Generate bar plot for evaluation.
+  doc = pptx( )
+
+
+  doc = addSlide(doc, slide.layout = "Title and Content")
+  doc = addPlot(doc, fun = function(){
+
+    print(ggplot(validateRSD.ggplot2Data, aes(x = methods, y = RSD)) + geom_bar(stat = "identity",fill = c(rep("black",length(validateRSD)-2),'red','gold'))+
+            theme.scatter+
+            theme(text = element_text(size=20),
+                  axis.text.x = element_text(angle=90, hjust=1))+
+            geom_text(aes(label=RSD), vjust=-1, colour="black")
+
+    )
+
+
+  } ,
+  vector.graphic = TRUE, width = 8, height = 8)
+  # write the document to a file
+  writeDoc(doc, file = "validate RSD bar-plot.pptx")
+
 }
 
 
