@@ -21,8 +21,8 @@ cat("Reading Data.\n")
 # e = as.matrix(e)
 # p$`Acq. Date-Time`  = gsub("/13 ", "/2013 ", p$`Acq. Date-Time`)
 # p$`Acq. Date-Time` = as.numeric(strptime(p$`Acq. Date-Time`, "%m/%d/%Y %H:%M"))
-# 
-# 
+#
+#
 path = "C:\\Users\\Sili Fan\\Desktop\\WORK\\WCMC\\projects\\mayo_depression_SSRIs_2013_normalization\\mayo_depression_SSRIs_2013_with_time_stamp.xlsx"
 
 # for xlsx input
@@ -46,7 +46,7 @@ if(sum(is.na(e)) > 0){
 e = data.matrix(e)
 
 
-# ggplot2 theme 
+# ggplot2 theme
 library(ggplot2)
 theme.scatter = theme(
   plot.title = element_text(size = rel(2), hjust = 0.5,face = 'bold',family = "Arial"),#title size.
@@ -61,14 +61,15 @@ theme.scatter = theme(
 
 setwd(workingdirectory)
 
-batch = rep(diff(sort(c(0,order(diff(p$time), decreasing = T)[c(1:3,5:6)], nrow(p)))), diff(sort(c(0,order(diff(p$time), decreasing = T)[c(1:3,5:6)], nrow(p)))))
-batch = revalue(as.character(batch), c("157"="Batch1", "140" = "Batch2", "167" = "Batch3", "179" = "Batch4", "204" = "Batch5", "178" = "Batch6"))
+# batch = rep(diff(sort(c(0,order(diff(p$time), decreasing = T)[c(1:3,5:6)], nrow(p)))), diff(sort(c(0,order(diff(p$time), decreasing = T)[c(1:3,5:6)], nrow(p)))))
+# batch = revalue(as.character(batch), c("157"="Batch1", "140" = "Batch2", "167" = "Batch3", "179" = "Batch4", "204" = "Batch5", "178" = "Batch6"))
 
 # png("batch defination.png", width = 800, height = 800)
 # plot(p$time, col = factor(batch))
 # dev.off()
 # define batches according to time interval.
 # cat("Visualize the batch vs injection order.\n")
+batch = p$batch
 batch = matrix(rep(batch,nrow(f)), nrow = nrow(f), byrow = T, ncol = nrow(p))
 # dta = data.frame(injection.order = 1:nrow(p), Date = p$`Acq. Date-Time`, batch = batch[1,])
 # ggplot(dta, aes(x=injection.order, y=Date, color=batch)) +
@@ -155,7 +156,7 @@ for(j in 1:n_CV){
                     span = ifelse(span_para=='auto',
                                   get_loess_para(x=x$t,y=x$v,
                                                  loess.span.limit = loess.span.limit),span_para) # find a proper span.
-                    
+
                   }
                   if(length(remove_outlier(x$v)[[2]])>0){
                     tryCatch(loess(v~t,data=x[-remove_outlier(x$v)[[2]],],span=span),error = function(e){
@@ -167,7 +168,7 @@ for(j in 1:n_CV){
                     })
                   }
                 })
-    
+
     # predict using the models.
     norm = mapply(function(u,v){
       o = tryCatch({
@@ -178,8 +179,8 @@ for(j in 1:n_CV){
         rep(0,length(v))
       })
     },models,by(time,batch[i,],function(x){x}))
-    
-    
+
+
     norm = unlist(norm)
     # replace NA with the closest value.
     if(length(which(is.na(norm)))>0){
@@ -240,9 +241,9 @@ for(i in 1:n_CV){
   e_SERRF_pred = t(e_SERRF_pred)
 
   dta = e_SERRF_pred[,QC.index.test[[i]]]
-  
+
   # dta = mTIC_norm(e=dta,f=f,p=p[QC.index.test[[i]],])$e
-  
+
   SERRF.QC.CV.[[i]] = RSD(dta,f,p[QC.index.test[[i]],],cl=cl)
 }
 SERRF.QC.CV = apply(do.call("cbind",SERRF.QC.CV.),1,mean, na.rm=T)
@@ -431,12 +432,12 @@ write.csv(dta, file="normalized-data-sets\\normalization-result-batchratio-norma
 # inputdata = data.frame(Group = "A", t(e))
 # colnames(inputdata) = c("Group",f$Annotation)
 # rownames(inputdata) = paste0("S",1:nrow(inputdata))
-# 
+#
 # result_norm[["NOMIS"]]$e = t(Normalise(inputdata,method = 'nomis',nc = f$Know == "ISTD")$output[,-1])
 # NOMIS.QC.CV = RSD(result_norm[['NOMIS']]$e[,p$`Stat Level 1`=='QC'],f,p[p$`Stat Level 1`=='QC',],cl=cl)
-# 
+#
 # NOMIS.validate = RSD(result_norm[['NOMIS']]$e[,p$`Stat Level 1`=='NIST'],f,p[p$`Stat Level 1`=='NIST',],cl=cl)
-# 
+#
 # cat(paste0("NOMIS normalization QC CV RSD is ", signif(median(NOMIS.QC.CV), 4)*100,"%. "))
 # cat(paste0(signif(sum(NOMIS.QC.CV<0.10)/nrow(f),4)*100,"% of QC CV RSD < 10%.\n"))
 # cat(paste0("NOMIS normalization validate QC RSD is ", signif(median(mTIC.validate), 4)*100,"%. "))
@@ -458,7 +459,7 @@ write.csv(dta, file="normalized-data-sets\\normalization-result-batchratio-norma
 
 
 # save performance CV QC RSD and validate RSD
-performance = data.frame(method = names(result_norm), 
+performance = data.frame(method = names(result_norm),
                          QC.CV.RSD = c(none = median(none.QC.CV, na.rm = T),
                                        mTIC = median(mTIC.QC.CV, na.rm = T),
                                        sum = median(sum.QC.CV, na.rm = T),
@@ -524,16 +525,16 @@ doc = pptx( )
 
 for(method in names(result_norm)){
   doc = addSlide(doc, slide.layout = "Title and Content")
-  
+
   index1 = apply(result_norm[[method]]$e, 1, function(x){
     !sd(x, na.rm = T) == 0
   })
   index2 = !is.na(index1)
   index = index1 & index2
-  
+
   doc = addPlot(doc, fun = function() print(generate_PCA(result_norm[[method]]$e[index,],f[index,],p,batch = batch[index,],QC.index =  QC.index,method)),
                 vector.graphic = TRUE, width = 6, height = 6)
-  
+
 }
 # write the document to a file
 writeDoc(doc, file = "PCA score plots.pptx")
@@ -579,7 +580,7 @@ doc = pptx( )
                                                     axis.text.x = element_text(angle=90, hjust=1))+
                                               geom_text(aes(label=RSD), vjust=-1, colour="black")),
                 vector.graphic = TRUE, width = 8, height = 8)
-  
+
 
 # write the document to a file
 writeDoc(doc, file = "QC CV RSD bar-plot.pptx")
@@ -620,7 +621,7 @@ cat("\nGOOD JOB. DATA NORMALIZATION FINISHED!")
 # library(kernlab)       # support vector machine
 # library(pROC)	       # plot the ROC curves
 # pacman::p_load(doParallel)
-# 
+#
 # cl <- makeCluster(min(detectCores(),20), outfile="")
 # registerDoParallel(cl)
 # # evaluate predicting performance on the validate set only to avoid overfitting.
@@ -639,8 +640,8 @@ cat("\nGOOD JOB. DATA NORMALIZATION FINISHED!")
 #                      gender = p$Gender[!is.na(p$Gender)])
 # trainData <- dataxgb[trainIndex,]
 # testData  <- dataxgb[-trainIndex,] # this is the validate set.
-# trainX <-trainData[,-ncol(dataxgb)]  
-# grid=data.frame(nrounds = 100, max_depth = 12, gamma = 0, min_child_weight = 12, colsample_bytree = 1, subsample = 1, eta = 0.01) # parameter selected using cross validation (time consuming) on the trainData. 
+# trainX <-trainData[,-ncol(dataxgb)]
+# grid=data.frame(nrounds = 100, max_depth = 12, gamma = 0, min_child_weight = 12, colsample_bytree = 1, subsample = 1, eta = 0.01) # parameter selected using cross validation (time consuming) on the trainData.
 # none_xgb <- train(x=trainX,
 #                    y= trainData$gender,
 #                    method = "xgbTree", # Xgboost
@@ -649,8 +650,8 @@ cat("\nGOOD JOB. DATA NORMALIZATION FINISHED!")
 #                    trControl=ctrl)
 # none_pred = predict(none_xgb, newdata = testData[,-ncol(dataxgb)], type='prob')[,1]
 # auc(pROC::roc(predictor = none_pred,response = as.factor(as.numeric(testData[,ncol(dataxgb)])-1)))
-# 
-# 
+#
+#
 # X = result_norm[['loess']]$e
 # pvalue = vector()
 # for(i in 1:nrow(result_norm[[method]]$e)){
@@ -660,8 +661,8 @@ cat("\nGOOD JOB. DATA NORMALIZATION FINISHED!")
 #                      gender = p$Gender[!is.na(p$Gender)])
 # trainData <- dataxgb[trainIndex,]
 # testData  <- dataxgb[-trainIndex,] # this is the validate set.
-# trainX <-trainData[,-ncol(dataxgb)]  
-# grid=data.frame(nrounds = 150, max_depth = 12, gamma = 0, min_child_weight = 2, colsample_bytree = 0.8, subsample = 0.8, eta = 0.06)# parameter selected using cross validation (time consuming) on the trainData. 
+# trainX <-trainData[,-ncol(dataxgb)]
+# grid=data.frame(nrounds = 150, max_depth = 12, gamma = 0, min_child_weight = 2, colsample_bytree = 0.8, subsample = 0.8, eta = 0.06)# parameter selected using cross validation (time consuming) on the trainData.
 # loess_xgb <- train(x=trainX,
 #                   y= trainData$gender,
 #                   method = "xgbTree", # Xgboost
@@ -670,8 +671,8 @@ cat("\nGOOD JOB. DATA NORMALIZATION FINISHED!")
 #                   trControl=ctrl)
 # loess_pred = predict(loess_xgb, newdata = testData[,-ncol(dataxgb)], type='prob')[,1]
 # auc(pROC::roc(predictor = loess_pred,response = as.factor(as.numeric(testData[,ncol(dataxgb)])-1)))
-# 
-# 
+#
+#
 # X = result_norm[['SERRF']]$e
 # pvalue = vector()
 # for(i in 1:nrow(result_norm[[method]]$e)){
@@ -681,8 +682,8 @@ cat("\nGOOD JOB. DATA NORMALIZATION FINISHED!")
 #                      gender = p$Gender[!is.na(p$Gender)])
 # trainData <- dataxgb[trainIndex,]
 # testData  <- dataxgb[-trainIndex,] # this is the validate set.
-# trainX <-trainData[,-ncol(dataxgb)]  
-# grid=data.frame(nrounds = 150, max_depth = 6, gamma = 2, min_child_weight = 5, colsample_bytree = 0.6, subsample = 0.8, eta = 0.05)# parameter selected using cross validation (time consuming) on the trainData. 
+# trainX <-trainData[,-ncol(dataxgb)]
+# grid=data.frame(nrounds = 150, max_depth = 6, gamma = 2, min_child_weight = 5, colsample_bytree = 0.6, subsample = 0.8, eta = 0.05)# parameter selected using cross validation (time consuming) on the trainData.
 # SERRF_xgb <- train(x=trainX,
 #                    y= trainData$gender,
 #                    method = "xgbTree", # Xgboost
@@ -691,13 +692,13 @@ cat("\nGOOD JOB. DATA NORMALIZATION FINISHED!")
 #                    trControl=ctrl)
 # serrf_pred = predict(SERRF_xgb, newdata = testData[,-ncol(dataxgb)], type='prob')[,1]
 # auc(pROC::roc(predictor = serrf_pred,response = as.factor(as.numeric(testData[,ncol(dataxgb)])-1)))
-# 
-# 
-# 
+#
+#
+#
 # # Generate AUROC for each method.
 # doc = pptx( )
-# 
-# 
+#
+#
 #   doc = addSlide(doc, slide.layout = "Title and Content")
 #   doc = addPlot(doc, fun = function() {
 #     plot(roc(predictor = none_pred,response = as.factor(as.numeric(testData[,ncol(dataxgb)])-1), direction=">"),col="black", lwd=3, main="AUROC")
@@ -705,7 +706,7 @@ cat("\nGOOD JOB. DATA NORMALIZATION FINISHED!")
 #     lines(roc(predictor = serrf_pred,response = as.factor(as.numeric(testData[,ncol(dataxgb)])-1), direction=">"),col="gold", lwd=3, main="AUROC")
 #   },
 #                 vector.graphic = TRUE, width = 6, height = 6)
-#   
-# 
+#
+#
 # # write the document to a file
 # writeDoc(doc, file = "AUROC.pptx")
