@@ -13,7 +13,7 @@ more tutorial and explanation available online.
 ## local
 * **download:**
 1. R and RStudio
-2. the above LOCAL folder
+2. the above LOCAL folder (click the green button and click download zip. Then you can extract everything to your local computer)
 * **steps:**
 1. open RStudio
 2. open the *LOCAL --> run me.R*.
