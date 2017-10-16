@@ -6,7 +6,7 @@ if(!"pacman" %in% rownames(installed.packages())){
 }
 cat("Checking required packages (auto-installing if missing).\n")
 pacman::p_load("randomForest", "affy", "e1071", "data.table", "parallel", "ReporteRs", "xlsx")
-
+setwd(workingdirectory)
 # load sources
 source("normalizations.R")
 source("utils.R")
@@ -23,7 +23,7 @@ cat("Reading Data.\n")
 # p$`Acq. Date-Time` = as.numeric(strptime(p$`Acq. Date-Time`, "%m/%d/%Y %H:%M"))
 #
 #
-path = "C:\\Users\\Sili Fan\\Desktop\\WORK\\WCMC\\projects\\mayo_depression_SSRIs_2013_normalization\\mayo_depression_SSRIs_2013_with_time_stamp.xlsx"
+# path = "C:\\Users\\Sili Fan\\Desktop\\WORK\\WCMC\\projects\\mayo_depression_SSRIs_2013_normalization\\mayo_depression_SSRIs_2013_with_time_stamp.xlsx"
 
 # for xlsx input
 data = readData(path)
@@ -59,7 +59,7 @@ theme.scatter = theme(
   text=element_text(family="Arial")
 )
 
-setwd(workingdirectory)
+
 
 # batch = rep(diff(sort(c(0,order(diff(p$time), decreasing = T)[c(1:3,5:6)], nrow(p)))), diff(sort(c(0,order(diff(p$time), decreasing = T)[c(1:3,5:6)], nrow(p)))))
 # batch = revalue(as.character(batch), c("157"="Batch1", "140" = "Batch2", "167" = "Batch3", "179" = "Batch4", "204" = "Batch5", "178" = "Batch6"))
