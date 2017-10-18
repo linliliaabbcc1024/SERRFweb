@@ -1,5 +1,5 @@
 load(file = "./data/norm.RData")
-SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Lin Lili\\TABLE 1-2017-10-17-plasma-lower-neg-35 compounds.xlsx", ip = '2602:306:3144:1140:5994:7a10:7bfa:67ac'){
+SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Lin Lili\\TABLE 2-2017-10-16-PLASMA-UPPER-POS-FORMAT-ERROR.xlsx", ip = '2602:306:3144:1140:5994:7a10:7bfa:67ac'){
 
   # library(rgeolocate)
 
@@ -164,15 +164,14 @@ SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Lin Lili\\TABLE 1-2017
       qc = rep(F, nrow(p))
       qc[QC.index] = T
       e. = e
-      diff = c()
       for(i in 1:nrow(e)){ # MAKE SURE THE QC AND SAMPLES ARE AT THE SAME LEVEL. This is critical for SERRF algorithm (and other tree-based machine learning algorithm) because when building each tree, the split on each leaf considers the level of the values. If the values are not consistant, then the RF models will be wrong and the RF will bias the intensity level after normalization (although the relative position won't change.)
-
         e.[i,qc] = unlist(by(data.frame(e.[i,],qc),batch[1,],function(x){# x = data.frame(e.[i,],qc)[batch[1,]=='A',]
-          diff[i] <<- (median(x[x[,2],1]) - median(x[!x[,2],1]))
-          x[x[,2],1] - diff[i]
+          diff =  (median(x[x[,2],1]) - median(x[!x[,2],1]))
+          x[x[,2],1] - diff
         }))
       }
       pred = parSapply(cl, X = 1:nrow(f), function(j,eData,batch,randomForest, QC.index, time){
+        set.seed(1)
         data = data.frame(y = eData[j,], t(eData[-j,]), batch = batch[1,], time = time)
         colnames(data) = c("y", paste0("X",1:nrow(eData))[-j], "batch", "time")
         model = randomForest(y~., data = data,subset = QC.index, importance = F)
@@ -183,9 +182,9 @@ SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Lin Lili\\TABLE 1-2017
       }, e.,batch,randomForest, QC.index, p[[time]])
 
       e_SERRF_pred = t(pred)
-      # put the QC level bach to where they were.
+      # put the QC level bach to where they were. Won't influence the value of samples.
       for(i in 1:nrow(e_SERRF_pred)){
-        e_SERRF_pred[i,qc] = e_SERRF_pred[i,qc] + diff[i]
+        e_SERRF_pred[i,qc]  = e_SERRF_pred[i, qc] + (median(e[i,qc], na.rm = T) - median(e[i,!qc], na.rm = T))
       }
       return(list(e = e_SERRF_pred, p = p, f = f))
     }
