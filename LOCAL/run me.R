@@ -1,7 +1,7 @@
 # workingdirectory is in which folder your file is.
-workingdirectory = "C:\\Users\\Sili Fan\\Downloads"
+workingdirectory = "C:\\Users\\Sili Fan\\Documents\\GitHub\\SERRFweb\\LOCAL\\"
 # filename is the name of your file. Check out the example.xlsx for format requirements.
-filename = "example.xlsx"
+filename = "TABLE 3-2017-10-16-PLASMA-UPPER-NEG.xlsx"
 
 
 source(paste0(workingdirectory,"\\core.R"))

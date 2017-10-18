@@ -183,9 +183,12 @@ SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Lin Lili\\TABLE 2-2017
 
       e_SERRF_pred = t(pred)
       # put the QC level bach to where they were. Won't influence the value of samples.
+      # make negative values positive.
       for(i in 1:nrow(e_SERRF_pred)){
         e_SERRF_pred[i,qc]  = e_SERRF_pred[i, qc] + (median(e[i,qc], na.rm = T) - median(e[i,!qc], na.rm = T))
+        e_SERRF_pred[i,e_SERRF_pred[i,]<0] = .5 * min(e_SERRF_pred[i,e_SERRF_pred[i,]>0])
       }
+      #
       return(list(e = e_SERRF_pred, p = p, f = f))
     }
     norm = SERRF_norm(e, f, p, batch, QC.index, time = "time")
@@ -241,6 +244,21 @@ SERRF = function(input = "C:\\Users\\Sili Fan\\Downloads\\Lin Lili\\TABLE 2-2017
 
   SERRFpca = generate_PCA(norm$e,f,p,QC.index, batch , "SERRF")
   rawpca = generate_PCA(e,f,p,QC.index, batch , "raw")
+
+
+
+
+  # par(mfrow = c(1,2))
+  # max = max(c(e[i,], norm$e[i,]), na.rm = T)
+  # min = min(c(e[i,], norm$e[i,]), na.rm = T)
+  # plot(e[i,], col = factor(qc), ylim= c(min, max))
+  # plot(norm$e[i,], col = factor(qc), ylim= c(min, max))
+  # i = i + 1
+  #
+  #
+
+
+
 
 
   # save results.

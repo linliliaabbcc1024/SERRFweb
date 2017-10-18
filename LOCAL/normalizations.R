@@ -5,15 +5,15 @@ none_norm = function(e,p,f){
 
 # mTIC normalization
 mTIC_norm= function(e,f,p, known = "KnownORUnknown", subset = rep(T,nrow(p))){
-  
+
   if(sum(!unique(f[[known]])%in%c(T,F))>1){
     stop(paste0("Error in TIC Normalization: The column ",known," must contain 'TRUE' and 'FALSE' only."))
   }
-  
-  
+
+
   index = rep(T, nrow(f))
   index[f[[known]]==FALSE | f[[known]]=="FALSE"] = FALSE
-  
+
   sums = apply(e[index,subset], 2, sum, na.rm=T)
   mean_sums = mean(sums)
   e_mTIC_norm = t(t(e)/(sums/mean_sums))
@@ -33,7 +33,7 @@ loess_norm = function(e,f,p,
     # for(i in 1:nrow(e)){
     models = by(data.frame(v=e[i,QC.index],t=p[[time]][QC.index]),
                 factor(batch[i,QC.index]),function(x){
-                  
+
                     # x = data.frame(v=e[i,QC.index],t=p[[time]][QC.index])[batch[i,QC.index]=="A",]
                     if(length(remove_outlier(x$v)[[2]])>0){# if outlier exists.
                       span = ifelse(span.para=='auto',
@@ -43,15 +43,15 @@ loess_norm = function(e,f,p,
                       span = ifelse(span.para=='auto',
                                     get_loess_para(x=x$t,y=x$v,
                                                    loess.span.limit = loess.span.limit),span.para) # find a proper span.
-                      
+
                     }
                     if(length(remove_outlier(x$v)[[2]])>0){
                       loess(v~t,data=x[-remove_outlier(x$v)[[2]],],span=span)
                     }else{
                       loess(v~t,data=x,span=span)
                     }
-                 
-                  
+
+
                 })
     # }
     # predict using the models.
@@ -77,11 +77,11 @@ loess_norm = function(e,f,p,
   },e,f,p,QC.index,batch,time,remove_outlier,span.para,get_loess_para,loess.span.limit)
   norms = t(norms)
   e_norm = matrix(NA,nrow=nrow(f),ncol=nrow(p))
-  
+
   for(i in 1:nrow(f)){
     e_norm[i,] = e[i,] / (norms[i,] / median(e[i,]))
   }
-  
+
   rownames(e_norm) = rownames(e)
   colnames(e_norm) = colnames(e)
   return(list(e = e_norm,f=f,p=p,normalize_line = norms))
@@ -91,16 +91,17 @@ loess_norm = function(e,f,p,
 SERRF_norm = function(e,f,p,
                       batch = define_batch(e,f,p),
                       QC.index, time = "Acq. Date-Time"){
-  library(randomForest)
   qc = rep(F, nrow(p))
   qc[QC.index] = T
   e. = e
-  for(i in 1:nrow(e)){ # MAKE SURE THE QC AND SAMPLES ARE AT THE SAME LEVEL. This is critical for SERRF algorithm (and other tree-based machine learning algorithms) because when building each tree, the split on each leaf considers the level of the values. If the values are not consistant, then the RF models will be wrong and the RF will bias the intensity level after normalization (although the relative position won't change.)
+  for(i in 1:nrow(e)){ # MAKE SURE THE QC AND SAMPLES ARE AT THE SAME LEVEL. This is critical for SERRF algorithm (and other tree-based machine learning algorithm) because when building each tree, the split on each leaf considers the level of the values. If the values are not consistant, then the RF models will be wrong and the RF will bias the intensity level after normalization (although the relative position won't change.)
     e.[i,qc] = unlist(by(data.frame(e.[i,],qc),batch[1,],function(x){# x = data.frame(e.[i,],qc)[batch[1,]=='A',]
-      x[x[,2],1] - (median(x[x[,2],1]) - median(x[!x[,2],1]))
+      diff =  (median(x[x[,2],1]) - median(x[!x[,2],1]))
+      x[x[,2],1] - diff
     }))
   }
   pred = parSapply(cl, X = 1:nrow(f), function(j,eData,batch,randomForest, QC.index, time){
+    set.seed(1)
     data = data.frame(y = eData[j,], t(eData[-j,]), batch = batch[1,], time = time)
     colnames(data) = c("y", paste0("X",1:nrow(eData))[-j], "batch", "time")
     model = randomForest(y~., data = data,subset = QC.index, importance = F)
@@ -111,9 +112,14 @@ SERRF_norm = function(e,f,p,
   }, e.,batch,randomForest, QC.index, p[[time]])
 
   e_SERRF_pred = t(pred)
+  # put the QC level bach to where they were. Won't influence the value of samples.
+  for(i in 1:nrow(e_SERRF_pred)){
+    e_SERRF_pred[i,qc]  = e_SERRF_pred[i, qc] + (median(e[i,qc], na.rm = T) - median(e[i,!qc], na.rm = T))
+    e_SERRF_pred[i,e_SERRF_pred[i,]<0] = .5 * min(e_SERRF_pred[i,e_SERRF_pred[i,]>0])
+  }
+  #
   return(list(e = e_SERRF_pred, p = p, f = f))
 }
-
 # SVM normalization (simplified from https://raw.githubusercontent.com/jaspershen/MetNormalizer/master/R/SXTsvrNor1.R)
 SVM_norm = function(e,f,p, QC.index, multiple = 5, time = "Acq. Date-Time"){
   library(e1071)
@@ -199,7 +205,7 @@ linear_norm = function(e,f,p) {
   sample.means <- apply(e, 2, mean)
   linear.scaling <- baseline.mean/sample.means
   linear.baseline.data <- t(t(e) * linear.scaling)
-  
+
   return(list(e = linear.baseline.data,f=f,p=p))
 }
 
@@ -269,7 +275,7 @@ generate_PCA = function(e,f,p, batch , QC.index, method){
   batch.QC = batch[1,];batch.QC[QC.index] = "QC"
   qc = rep(F, ncol(e))
   qc[QC.index] = TRUE
-  
+
   plot = ggplot(pca.data, aes(PC1, PC2, color = batch.QC,size = qc, order = order)) +
     geom_point(alpha = 3/4) +
     stat_ellipse( linetype = 2, size = 0.5) +
@@ -277,7 +283,7 @@ generate_PCA = function(e,f,p, batch , QC.index, method){
          title = method)+
     theme.scatter
   return(plot)
-  
+
 }
 
 
